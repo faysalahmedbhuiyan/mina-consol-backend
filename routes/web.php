@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 
 Route::get('/', function () {
     return response()->json([
@@ -8,7 +9,11 @@ Route::get('/', function () {
         'message' => 'Backend is running',
     ]);
 });
-use Illuminate\Support\Facades\Artisan;
+
+Route::get('/clear', function () {
+    Artisan::call('optimize:clear');
+    return 'Cache cleared';
+});
 
 Route::get('/migrate', function () {
     Artisan::call('migrate', ['--force' => true]);
@@ -23,5 +28,6 @@ Route::get('/storage-link', function () {
 Route::get('/debug', function () {
     return [
         'db' => config('database.default'),
+        'app_env' => config('app.env'),
     ];
 });
