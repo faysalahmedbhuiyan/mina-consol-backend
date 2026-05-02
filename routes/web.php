@@ -42,3 +42,18 @@ Route::get('/debug', function () {
         'cache_writable' => is_writable(base_path('bootstrap/cache')),
     ];
 });
+Route::get('/fix-storage', function () {
+    $paths = [
+        storage_path('framework/sessions'),
+        storage_path('framework/views'),
+        storage_path('framework/cache'),
+    ];
+
+    foreach ($paths as $path) {
+        if (!file_exists($path)) {
+            mkdir($path, 0777, true);
+        }
+    }
+
+    return 'Storage fixed';
+});
