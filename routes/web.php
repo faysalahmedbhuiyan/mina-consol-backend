@@ -1,7 +1,23 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
+Route::get('/', function () {
+    return response()->json([
+        'status' => true,
+        'message' => 'Backend is running',
+    ]);
+});
+
+//for test railway
 use Illuminate\Support\Facades\Artisan;
+
+Route::get('/clear', function () {
+    Artisan::call('config:clear');
+    Artisan::call('cache:clear');
+    Artisan::call('route:clear');
+    return 'Cleared';
+});
 
 Route::get('/migrate', function () {
     Artisan::call('migrate', ['--force' => true]);
