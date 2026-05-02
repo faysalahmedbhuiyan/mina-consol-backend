@@ -25,3 +25,28 @@ return Application::configure(basePath: dirname(__DIR__))
     })
 
     ->create();
+
+
+$app = new Illuminate\Foundation\Application(
+    $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__)
+);
+
+/*
+|--------------------------------------------------------------------------
+| FIX STORAGE PATHS (Railway fix)
+|--------------------------------------------------------------------------
+*/
+
+$paths = [
+    $app->storagePath('framework/sessions'),
+    $app->storagePath('framework/views'),
+    $app->storagePath('framework/cache'),
+];
+
+foreach ($paths as $path) {
+    if (!file_exists($path)) {
+        mkdir($path, 0777, true);
+    }
+}
+
+return $app;
