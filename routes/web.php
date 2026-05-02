@@ -17,3 +17,12 @@ Route::get('/', function () {
         'message' => 'Backend is running',
     ]);
 });
+Route::get('/debug', function () {
+    return [
+        'app_key' => config('app.key'),
+        'db' => config('database.default'),
+        'db_path' => config('database.connections.sqlite.database'),
+        'storage_writable' => is_writable(storage_path()),
+        'cache_writable' => is_writable(base_path('bootstrap/cache')),
+    ];
+});
